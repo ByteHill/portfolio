@@ -1,33 +1,66 @@
-// landing section — animated word carousel, intro text, CTA button, 3D game scene, personality cards
-import { words } from '../constants/index.js'
-import Button from '../components/Button.jsx'
-import HeroExperience3 from '../components/HeroModels/HeroExperience3.jsx'
-import {useGSAP} from '@gsap/react';
-import gsap from 'gsap';
+import React, { useRef } from "react";
+import { words } from "../constants/index.js";
+import Button from "../components/Button.jsx";
+import HeroExperience3 from "../components/HeroModels/HeroExperience3.jsx";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 import Counter from "../components/Counter.jsx";
 
 export const Hero = () => {
+    const bubbleRef = useRef(null);
+
+    const dismissBubble = () => {
+        if (!bubbleRef.current) return;
+
+        gsap.to(bubbleRef.current, {
+            opacity: 0,
+            y: 20,
+            duration: 0.25,
+            ease: "power2.out",
+            pointerEvents: "none",
+        });
+    };
+
     useGSAP(() => {
         gsap.fromTo(
-            ['.hero-text h1', '.hero-slider', '.hero-introduction'],
+            [".hero-text h1", ".hero-slider", ".hero-introduction"],
             { y: 50, opacity: 0 },
-            { y: 0, opacity: 1, stagger: 0.2, duration: 1.5, ease: 'power2.inOut' }
-        )
+            {
+                y: 0,
+                opacity: 1,
+                stagger: 0.2,
+                duration: 1.5,
+                ease: "power2.inOut",
+            }
+        );
 
         gsap.fromTo(
-            '.hero-bubble',
+            bubbleRef.current,
             { y: 50, opacity: 0 },
-            { y: 0, opacity: 1, duration: 1.5, ease: 'power2.inOut', delay: 1.7 }
-        )
-    })
+            {
+                y: 0,
+                opacity: 1,
+                duration: 1.5,
+                ease: "power2.inOut",
+                delay: 1.7,
+            }
+        );
+    });
+
     return (
-        <section id="hero" className="relative overflow-hidden">
+        <section
+            id="hero"
+            className="relative overflow-hidden"
+            onPointerDown={dismissBubble}
+            onTouchStart={dismissBubble}
+        >
             <div className="absolute top-0 left-0 z-10">
                 <img src="/images/bg.png" alt="background" />
             </div>
 
             <div className="hero-layout">
-                <header className="
+                <header
+                    className="
                         flex flex-col
                         justify-center
                         md:w-full
@@ -35,7 +68,8 @@ export const Hero = () => {
                         md:px-20
                         px-5
                         md:-mt-10
-                    ">
+                    "
+                >
                     <div className="flex flex-col md:gap-7 gap-6">
                         <div className="hero-text relative z-10">
                             <h1>Welcome to my</h1>
@@ -55,22 +89,25 @@ export const Hero = () => {
                                                     h-14
                                                     md:-ml-4
                                                     -ml-2
-                                                  "
-                                                                                            >
+                                                "
+                                            >
                                                 <img
                                                     src={word.imgPath}
                                                     alt={word.text}
                                                     className="
-                                                    xl:size-10
-                                                    md:size-8
-                                                    size-6
-                                                    opacity-60
-                                                    brightness-0
-                                                    saturate-100
-                                                    hue-rotate-[220deg]
-                                                  "
+                                                        xl:size-10
+                                                        md:size-8
+                                                        size-6
+                                                        opacity-60
+                                                        brightness-0
+                                                        saturate-100
+                                                        hue-rotate-[220deg]
+                                                    "
                                                 />
-                                                <span className="text-[#4f8fbf]">{word.text}</span>
+
+                                                <span className="text-[#4f8fbf]">
+                                                    {word.text}
+                                                </span>
                                             </span>
                                         ))}
                                     </span>
@@ -79,7 +116,11 @@ export const Hero = () => {
                         </div>
 
                         <p className="hero-introduction text-white-50 md:text-xl relative z-10 pointer-events-none">
-                            Hi, I'm <span className="text-gray-800 italic">Alisha</span>, a developer who loves a good problem to dig into.
+                            Hi, I'm{" "}
+                            <span className="text-gray-800 italic">
+                                Alisha
+                            </span>
+                            , a developer who loves a good problem to dig into.
                         </p>
 
                         <Button
@@ -90,24 +131,33 @@ export const Hero = () => {
                     </div>
                 </header>
 
-                {/* Speech-bubble tooltip — floats above the 3D model, top-right of the hero */}
-                <div className="hero-bubble absolute top-[46.5%] md:top-[25%] right-[4%] md:right-[8%] z-20 pointer-events-none" style={{ opacity: 0 }}>
-                    <div className="
-                    relative
-                    bg-[#dedad3]
-                    text-[#1a1a1a]
-                    text-[10px] md:text-xs
-                    italic
-                    font-normal
-                    px-3 md:px-4
-                    py-1.5 md:py-2
-                    rounded-md
-                    w-[160px] md:w-[260px]
-                    leading-relaxed
-                    shadow-sm
-                    ">
-                        ps: i kept spinning this thing while building it. the cube's texture looks too much like butter, and now i want toast.
-                        {/* Downward tail */}
+                {/* Speech bubble */}
+                <div
+                    ref={bubbleRef}
+                    className="hero-bubble absolute top-[46.5%] md:top-[25%] right-[4%] md:right-[8%] z-20 pointer-events-none"
+                    style={{ opacity: 0 }}
+                >
+                    <div
+                        className="
+                            relative
+                            bg-[#dedad3]
+                            text-[#1a1a1a]
+                            text-[10px] md:text-xs
+                            italic
+                            font-normal
+                            px-3 md:px-4
+                            py-1.5 md:py-2
+                            rounded-md
+                            w-[160px] md:w-[260px]
+                            leading-relaxed
+                            shadow-sm
+                        "
+                    >
+                        ps: i kept spinning this thing while building it. the
+                        cube's texture looks too much like butter, and now i
+                        want toast.
+
+                        {/* Tail */}
                         <span className="absolute -bottom-[7px] left-1/2 -translate-x-1/2 w-0 h-0 border-l-[7px] border-r-[7px] border-t-[7px] border-l-transparent border-r-transparent border-t-[#dedad3]" />
                     </div>
                 </div>
@@ -119,10 +169,9 @@ export const Hero = () => {
                 </figure>
             </div>
 
-
             <Counter />
         </section>
-    )
-}
+    );
+};
 
-export default Hero
+export default Hero;
