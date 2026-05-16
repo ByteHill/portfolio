@@ -31,7 +31,7 @@ const words = [
 
 const counterItems = [
     { value: "AI Systems • Research • Design", label: "interests:" },
-    { value: "AI/ML Engineering @ UWaterloo", label: "currently:" },
+    { value: "Computer Engineering @ UWaterloo", label: "currently:" },
     { value: "Tea. Then some more.", label: "Fuel:" },
 ];
 

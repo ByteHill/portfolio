@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
-const chars = " .,:;i1tfLCG08@*".split("");
+const chars = " .,:;i1tG08@*?][}{1)(|#MW&".split("");
 
 const calculateSize = (width) => {
     if (width <= 480) return Math.min(240, width - 40);
@@ -52,7 +52,7 @@ const AsciiRipple = ({ imageSrc = "/images/art-profile.png" }) => {
             const offsetX = (size - drawWidth) / 2;
             const offsetY = (size - drawHeight) / 2;
 
-            ctx.filter =  "contrast(1.25) brightness(1.05) saturate(0.7)";
+            ctx.filter = "contrast(1.6) brightness(1.0) saturate(0.5)";  // was contrast(1.25)
             ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
             ctx.filter = "none";
 
@@ -79,17 +79,12 @@ const AsciiRipple = ({ imageSrc = "/images/art-profile.png" }) => {
 
                         let contrasted = brightness;
 
-// selectively deepen shadows
-                        if (brightness < 0.55) {
-                            contrasted *= 0.72;
-                        }
-
-// gently brighten highlights
+                        // gently brighten highlights
                         if (brightness > 0.75) {
                             contrasted = Math.min(1, contrasted * 1.08);
                         }
 
-                        const boosted = Math.pow(brightness, 0.9);
+                        const boosted = Math.pow(brightness, 0.75);
                         const charIndex = Math.floor(boosted * (chars.length - 1));
                         particles.push({
                             x: x + (Math.random() - 0.5) * 500,
@@ -99,7 +94,7 @@ const AsciiRipple = ({ imageSrc = "/images/art-profile.png" }) => {
                             vx: 0,
                             vy: 0,
                             char: chars[charIndex],
-                            alpha: 0.42 + (1 - brightness) * 0.28,
+                            alpha: 0.65 + (1 - brightness) * 0.35,  // max ~1.0 for dark areas
                             delay: Math.random() * 0.5,
                             shimmer: Math.random() * Math.PI * 2,
                         });
