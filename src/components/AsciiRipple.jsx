@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 
-const chars = " .,:;i1tG08@*?][}{1)(|#MW&".split("");
+const chars = " .,:;i1tfLCG08@x".split("");
 
 const calculateSize = (width) => {
     if (width <= 480) return Math.min(240, width - 40);
@@ -52,7 +52,7 @@ const AsciiRipple = ({ imageSrc = "/images/art-profile.png" }) => {
             const offsetX = (size - drawWidth) / 2;
             const offsetY = (size - drawHeight) / 2;
 
-            ctx.filter = "contrast(1.6) brightness(1.0) saturate(0.5)";  // was contrast(1.25)
+            ctx.filter = "contrast(1.35) brightness(1.02) saturate(0.6)";
             ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
             ctx.filter = "none";
 
@@ -84,7 +84,7 @@ const AsciiRipple = ({ imageSrc = "/images/art-profile.png" }) => {
                             contrasted = Math.min(1, contrasted * 1.08);
                         }
 
-                        const boosted = Math.pow(brightness, 0.75);
+                        const boosted = Math.pow(brightness, 0.85);  // between old 0.9 and new 0.75
                         const charIndex = Math.floor(boosted * (chars.length - 1));
                         particles.push({
                             x: x + (Math.random() - 0.5) * 500,
@@ -94,7 +94,7 @@ const AsciiRipple = ({ imageSrc = "/images/art-profile.png" }) => {
                             vx: 0,
                             vy: 0,
                             char: chars[charIndex],
-                            alpha: 0.65 + (1 - brightness) * 0.35,  // max ~1.0 for dark areas
+                            alpha: 0.45 + (1 - brightness) * 0.30,  // max ~0.75, was 0.65+0.35=1.0
                             delay: Math.random() * 0.5,
                             shimmer: Math.random() * Math.PI * 2,
                         });
