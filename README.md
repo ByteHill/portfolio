@@ -56,7 +56,7 @@ public/
   images/         # all image assets (referenced with absolute paths)
 ```
 
-all static content (nav links, experience cards, research papers, photos, projects, contact links) lives in `src/constants/` — if you want to update something, that's probably where to look.
+all static content (nav links, experience cards, research papers, photos, projects, contact links) lives in `src/constants/` — if we want to update something, that's probably where to look.
 
 ---
 
